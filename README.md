@@ -10,12 +10,11 @@
 - [Casos de Uso](#casos-de-uso)
 - [Modelo de Domínio](#modelo-de-domínio)
   - [Diagrama de Classes (Mermaid)](#diagrama-de-classes-mermaid)
-  - [Diagramas de Sequência (Mermaid)](#diagramas-de-sequência-mermaid)
 - [Protótipo de Alta Fidelidade](#protótipo-de-alta-fidelidade)
 - [Links do Projeto](#links-do-projeto)
 - [Equipe](#equipe)
 - [Próximos Passos](#próximos-passos)
-- [Referências e Créditos](#referências-e-créditos)
+
 
 ---
 
