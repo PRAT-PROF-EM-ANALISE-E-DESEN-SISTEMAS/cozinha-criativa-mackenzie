@@ -6,7 +6,10 @@ import './App.css'
 export default function App() {
   return (
     <div className="min-h-screen bg-green-700 text-white text-center text-3xl flex items-center justify-center">
-      ✅ Tailwind + PWA funcionando!
+      ✅ Tailwind + 
+      ✅ PWA funcionando! +
+      ✅ React +
+      ✅ Vite
     </div>
   );
 }
