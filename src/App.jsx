@@ -1,16 +1,14 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./pages/login";
+
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-green-700 text-white text-center text-3xl flex items-center justify-center">
-      ✅ Tailwind + 
-      ✅ PWA funcionando! +
-      ✅ React +
-      ✅ Vite
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        {/* outras rotas */}
+      </Routes>
+    </BrowserRouter>
   );
 }
-
