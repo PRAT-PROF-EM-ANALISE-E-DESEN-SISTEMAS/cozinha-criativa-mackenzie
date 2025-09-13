@@ -139,11 +139,11 @@ Telas de referência do protótipo:
 ---
 
 ## Equipe
-- **Andreia do Nascimento Oliveira** — RA: 10424500  
-- **Caio Bello Zamana** — RA: 10424594  
-- **Henrique Ribeiro Ciriaco Silva** — RA: 10423915  
-- **Verônica Lima de Faria** — RA: 10424236  
-- **Zenaide Silva Souto** — RA: 10424121  
+- **Andreia do Nascimento Oliveira** 
+- **Caio Bello Zamana** 
+- **Henrique Ribeiro Ciriaco Silva** 
+- **Verônica Lima de Faria** 
+- **Zenaide Silva Souto** 
 
 > **Instituição:** Universidade Presbiteriana Mackenzie  
 > **Componente Curricular:** Prática Profissional em Análise e Desenvolvimento de Sistemas
