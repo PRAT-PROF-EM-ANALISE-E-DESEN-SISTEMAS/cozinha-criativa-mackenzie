@@ -11,7 +11,6 @@ export default function LoginForm({ onSubmit }) {
 
     try {
       setLoading(true);
-      // chama a ação de login da sua app
       await (onSubmit ? onSubmit({ usuario, senha }) : Promise.resolve());
     } finally {
       setLoading(false);
@@ -19,11 +18,16 @@ export default function LoginForm({ onSubmit }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="form">
-      <label className="field">
-        <span className="label">Usuário</span>
+    <form onSubmit={handleSubmit} className="mt-3 space-y-3">
+      <label className="block text-left">
+        <span className="block text-xs sm:text-sm text-gray-500 mb-1">Usuário</span>
         <input
-          className="input"
+          className="
+            w-full rounded-xl border border-gray-200
+            px-3 py-2.5 text-sm sm:text-base
+            placeholder:text-gray-400
+            outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/30
+          "
           type="text"
           autoComplete="username"
           value={usuario}
@@ -33,10 +37,15 @@ export default function LoginForm({ onSubmit }) {
         />
       </label>
 
-      <label className="field">
-        <span className="label">Senha</span>
+      <label className="block text-left">
+        <span className="block text-xs sm:text-sm text-gray-500 mb-1">Senha</span>
         <input
-          className="input"
+          className="
+            w-full rounded-xl border border-gray-200
+            px-3 py-2.5 text-sm sm:text-base
+            placeholder:text-gray-400
+            outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-500/30
+          "
           type="password"
           autoComplete="current-password"
           value={senha}
@@ -46,7 +55,15 @@ export default function LoginForm({ onSubmit }) {
         />
       </label>
 
-      <button className="btn" disabled={!usuario || !senha || loading}>
+      <button
+        className="
+          w-full rounded-xl bg-pink-500 text-white font-semibold
+          py-2.5 text-sm sm:text-base
+          hover:bg-pink-600 transition
+          disabled:opacity-60 disabled:cursor-not-allowed
+        "
+        disabled={!usuario || !senha || loading}
+      >
         {loading ? "Entrando..." : "Entrar"}
       </button>
     </form>
