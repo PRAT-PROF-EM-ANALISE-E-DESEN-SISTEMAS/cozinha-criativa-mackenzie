@@ -1,12 +1,12 @@
-﻿import { useState, useMemo } from "react";
+﻿// src/App.tsx
+import { useState, useMemo } from "react";
+import Header from "./components/Header";
+
 import { RecipeCard } from "./components/recipe-card";
-
-import type { Recipe } from "./types/recipe";
-
 import { RecipeDetail } from "./components/recipe-detail";
 import { RecipeSearch } from "./components/recipe-search";
-import { PantryManager } from "./components/pantry-manager";
-import { Logo } from "./components/logo";
+import { Login } from "./components/Login";
+
 import { ChefHat, Sparkles } from "lucide-react";
 import {
   Tabs,
@@ -15,14 +15,14 @@ import {
   TabsTrigger,
 } from "./components/ui/tabs";
 import { Alert, AlertDescription } from "./components/ui/alert";
-import { Login } from "./components/Login"; // import do login
 
+import type { Recipe } from "./types/recipe";
 
-// Dados mock das receitas (mantive todas do seu cÃ³digo original)
+// Dados mock das receitas (mantive todas do seu código original)
 const mockRecipes: Recipe[] = [
   {
     id: 1,
-    title: "Spaghetti Ã  Carbonara",
+    title: "Spaghetti Ã  Carbonara",
     description:
       "Um clÃ¡ssico italiano cremoso e delicioso, feito com ovos, queijo parmesÃ£o, pancetta e pimenta preta.",
     image:
@@ -45,7 +45,7 @@ const mockRecipes: Recipe[] = [
       "Enquanto isso, frite a pancetta em uma frigideira grande atÃ© ficar dourada.",
       "Em uma tigela, bata os ovos com o parmesÃ£o e pimenta preta.",
       "Escorra a massa e reserve 1 xÃ­cara da Ã¡gua do cozimento.",
-      "Adicione a massa quente Ã  frigideira com a pancetta.",
+      "Adicione a massa quente Ã  frigideira com a pancetta.",
       "Retire do fogo e misture rapidamente com os ovos batidos.",
       "Adicione Ã¡gua da massa aos poucos atÃ© obter cremosidade.",
       "Sirva imediatamente com parmesÃ£o extra.",
@@ -175,7 +175,7 @@ const mockRecipes: Recipe[] = [
       "Adicione a abÃ³bora e gengibre, refogue por 5 minutos.",
       "Acrescente o caldo de legumes e cozinhe por 20 minutos.",
       "Bata tudo no liquidificador atÃ© ficar cremoso.",
-      "Volte Ã  panela e adicione o leite de coco.",
+      "Volte Ã  panela e adicione o leite de coco.",
       "Tempere com sal e pimenta.",
       "AqueÃ§a por mais 5 minutos.",
       "Sirva decorado com sementes torradas.",
@@ -218,18 +218,14 @@ const mockRecipes: Recipe[] = [
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false); // estado para login
-  const [selectedRecipe, setSelectedRecipe] =
-    useState<Recipe | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const [availableIngredients, setAvailableIngredients] =
-    useState<string[]>([]);
+  const [availableIngredients, setAvailableIngredients] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState("all");
 
   const categories = useMemo(() => {
-    const allCategories = mockRecipes.map(
-      (recipe) => recipe.category,
-    );
+    const allCategories = mockRecipes.map((recipe) => recipe.category);
     return [...new Set(allCategories)];
   }, []);
 
@@ -238,9 +234,7 @@ export default function App() {
   };
 
   const removeIngredient = (ingredient: string) => {
-    setAvailableIngredients((prev) =>
-      prev.filter((item) => item !== ingredient),
-    );
+    setAvailableIngredients((prev) => prev.filter((item) => item !== ingredient));
   };
 
   const calculateIngredientMatch = (recipe: Recipe) => {
@@ -249,13 +243,9 @@ export default function App() {
     const matchCount = recipe.ingredients.filter((ingredient) =>
       availableIngredients.some(
         (available) =>
-          ingredient
-            .toLowerCase()
-            .includes(available.toLowerCase()) ||
-          available
-            .toLowerCase()
-            .includes(ingredient.toLowerCase()),
-      ),
+          ingredient.toLowerCase().includes(available.toLowerCase()) ||
+          available.toLowerCase().includes(ingredient.toLowerCase())
+      )
     ).length;
 
     return (matchCount / recipe.ingredients.length) * 100;
@@ -264,51 +254,35 @@ export default function App() {
   const filteredRecipes = useMemo(() => {
     let filtered = mockRecipes.filter((recipe) => {
       const matchesSearch =
-        recipe.title
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase()) ||
-        recipe.description
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        selectedCategory === "" ||
-        recipe.category === selectedCategory;
+        recipe.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        recipe.description.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === "" || recipe.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
 
-    if (
-      activeTab === "pantry" &&
-      availableIngredients.length > 0
-    ) {
+    if (activeTab === "pantry" && availableIngredients.length > 0) {
       filtered = filtered
         .map((recipe) => ({
           ...recipe,
           matchPercentage: calculateIngredientMatch(recipe),
         }))
-        .filter((recipe) => recipe.matchPercentage > 0)
-        .sort((a, b) => b.matchPercentage - a.matchPercentage);
+        .filter((recipe: any) => recipe.matchPercentage > 0)
+        .sort((a: any, b: any) => b.matchPercentage - a.matchPercentage);
     }
 
     return filtered;
-  }, [
-    searchTerm,
-    selectedCategory,
-    activeTab,
-    availableIngredients,
-  ]);
+  }, [searchTerm, selectedCategory, activeTab, availableIngredients]);
 
-  // Se nÃ£o estiver logado, mostra tela de login
+  // Se não estiver logado, mostra tela de login
   if (!loggedIn) {
     return <Login onLogin={() => setLoggedIn(true)} />;
   }
 
+  // Página de detalhes
   if (selectedRecipe) {
     return (
       <div className="min-h-screen bg-background relative overflow-hidden">
-        {/* Mantive todo o layout do seu cÃ³digo original */}
-        <div className="fixed inset-0 pointer-events-none">
-          {/* imagens de fundo */}
-        </div>
+        <div className="fixed inset-0 pointer-events-none">{/* imagens de fundo */}</div>
         <div className="container mx-auto px-4 py-8 relative z-10">
           <RecipeDetail
             recipe={selectedRecipe}
@@ -320,62 +294,48 @@ export default function App() {
     );
   }
 
+  // Home
   return (
     <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Layout principal igual ao original */}
-      <div className="fixed inset-0 pointer-events-none">
-        {/* imagens de fundo */}
-      </div>
-      <header className="border-b bg-background/80 backdrop-blur-sm relative z-10">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between mb-6">
-            <Logo />
-            <PantryManager
-              availableIngredients={availableIngredients}
-              onAddIngredient={addIngredient}
-              onRemoveIngredient={removeIngredient}
-            />
-          </div>
+      <div className="fixed inset-0 pointer-events-none">{/* imagens de fundo */}</div>
 
-          <Tabs
-            value={activeTab}
-            onValueChange={setActiveTab}
-            className="space-y-4"
-          >
-            <TabsList>
-              <TabsTrigger value="all">
-                Todas as Receitas
-              </TabsTrigger>
-              <TabsTrigger value="pantry" className="gap-2">
-                <ChefHat className="w-4 h-4" />
-                Com Meus Ingredientes
-                {availableIngredients.length > 0 && (
-                  <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs">
-                    {availableIngredients.length}
-                  </span>
-                )}
-              </TabsTrigger>
-            </TabsList>
+      {/* Header externo (email, avatar, logout) + Tabs/Search como children */}
+      <Header
+        availableIngredients={availableIngredients}
+        onAddIngredient={addIngredient}
+        onRemoveIngredient={removeIngredient}
+        onAfterLogout={() => setLoggedIn(false)}
+      >
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          <TabsList>
+            <TabsTrigger value="all">Todas as Receitas</TabsTrigger>
+            <TabsTrigger value="pantry" className="gap-2">
+              <ChefHat className="w-4 h-4" />
+              Com Meus Ingredientes
+              {availableIngredients.length > 0 && (
+                <span className="bg-primary text-primary-foreground rounded-full px-2 py-0.5 text-xs">
+                  {availableIngredients.length}
+                </span>
+              )}
+            </TabsTrigger>
+          </TabsList>
 
-            <RecipeSearch
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-              categories={categories}
-            />
-          </Tabs>
-        </div>
-      </header>
+          <RecipeSearch
+            searchTerm={searchTerm}
+            onSearchChange={setSearchTerm}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            categories={categories}
+          />
+        </Tabs>
+      </Header>
 
       <main className="container mx-auto px-4 py-8 relative z-10">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsContent value="all">
             {filteredRecipes.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground">
-                  Nenhuma receita encontrada.
-                </p>
+                <p className="text-muted-foreground">Nenhuma receita encontrada.</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -396,21 +356,17 @@ export default function App() {
               <Alert>
                 <Sparkles className="h-4 w-4" />
                 <AlertDescription>
-                  Adicione ingredientes que você tem em casa
-                  para ver receitas personalizadas! Clique em
+                  Adicione ingredientes que você tem em casa para ver receitas personalizadas! Clique em
                   "Minha Despensa" acima para começar.
                 </AlertDescription>
               </Alert>
             ) : filteredRecipes.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-muted-foreground">
-                  Nenhuma receita encontrada com seus
-                  ingredientes disponÃ­veis.
+                  Nenhuma receita encontrada com seus ingredientes disponíveis.
                 </p>
                 <p className="text-muted-foreground text-sm mt-2">
-                  Tente adicionar mais ingredientes ou veja
-                  todas as receitas para encontrar algo que
-                  goste!
+                  Tente adicionar mais ingredientes ou veja todas as receitas para encontrar algo que goste!
                 </p>
               </div>
             ) : (
@@ -418,9 +374,8 @@ export default function App() {
                 <Alert>
                   <Sparkles className="h-4 w-4" />
                   <AlertDescription>
-                    Receitas ordenadas pela compatibilidade com
-                    seus ingredientes. A porcentagem indica
-                    quantos ingredientes vocÃª jÃ¡ tem!
+                    Receitas ordenadas pela compatibilidade com seus ingredientes. A porcentagem indica quantos
+                    ingredientes você já tem!
                   </AlertDescription>
                 </Alert>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -429,9 +384,7 @@ export default function App() {
                       key={recipe.id}
                       recipe={recipe}
                       onClick={setSelectedRecipe}
-                      availableIngredients={
-                        availableIngredients
-                      }
+                      availableIngredients={availableIngredients}
                     />
                   ))}
                 </div>
@@ -443,4 +396,3 @@ export default function App() {
     </div>
   );
 }
-

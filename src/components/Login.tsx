@@ -1,12 +1,12 @@
-﻿import { useEffect, useState } from "react";
-import { Logo } from "./logo";
+﻿import React, { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
+import { Logo } from "./logo"; // ajuste o caminho se seu Logo estiver em outro lugar
 import { auth, googleProvider } from "../lib/firebase";
 import {
-  signInWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 interface LoginProps {
@@ -14,24 +14,37 @@ interface LoginProps {
 }
 
 export function Login({ onLogin }: LoginProps) {
-  const [email, setEmail] = useState("");         // <— troquei p/ email
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [animate, setAnimate] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => setAnimate(true), 50);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setAnimate(true), 50);
+    return () => clearTimeout(t);
   }, []);
 
-  // se usuário já está logado (ex.: retorno de redirect), chama onLogin
+  // se já voltou autenticado (redirect), chama onLogin
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (user) => {
-      if (user) onLogin();
+    const unsub = onAuthStateChanged(auth, (u) => {
+      if (u) onLogin();
     });
     return () => unsub();
   }, [onLogin]);
+
+  const handleGoogle = async () => {
+    setError(null);
+    setBusy(true);
+    try {
+      await signInWithPopup(auth, googleProvider);
+      onLogin();
+    } catch {
+      await signInWithRedirect(auth, googleProvider);
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const handleEmailPassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,31 +58,12 @@ export function Login({ onLogin }: LoginProps) {
       await signInWithEmailAndPassword(auth, email, password);
       onLogin();
     } catch (err: any) {
-      // mensagens amigáveis
       const code = err?.code as string | undefined;
       let msg = "Não foi possível entrar. Tente novamente.";
-      if (code === "auth/invalid-credential" || code === "auth/wrong-password") {
-        msg = "Credenciais inválidas.";
-      } else if (code === "auth/user-not-found") {
-        msg = "Usuário não encontrado.";
-      } else if (code === "auth/too-many-requests") {
-        msg = "Muitas tentativas. Tente mais tarde.";
-      }
+      if (code === "auth/invalid-credential" || code === "auth/wrong-password") msg = "Credenciais inválidas.";
+      else if (code === "auth/user-not-found") msg = "Usuário não encontrado.";
+      else if (code === "auth/too-many-requests") msg = "Muitas tentativas. Tente mais tarde.";
       setError(msg);
-    } finally {
-      setBusy(false);
-    }
-  };
-
-  const handleGoogle = async () => {
-    setError(null);
-    try {
-      setBusy(true);
-      await signInWithPopup(auth, googleProvider);
-      onLogin();
-    } catch {
-      // Popup pode ser bloqueado em PWA/iOS → usa redirect
-      await signInWithRedirect(auth, googleProvider);
     } finally {
       setBusy(false);
     }
@@ -96,7 +90,6 @@ export function Login({ onLogin }: LoginProps) {
           disabled={busy}
           className="w-full inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-3 font-medium text-gray-700 hover:bg-gray-50 disabled:opacity-60"
         >
-          {/* ícone do Google em SVG (leve) */}
           <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden>
             <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c10 0 19-7.3 19-20 0-1.3-.1-2.7-.4-3.5z"/>
             <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 16 18.9 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4 16.3 4 9.6 8.4 6.3 14.7z"/>
@@ -116,7 +109,7 @@ export function Login({ onLogin }: LoginProps) {
           </div>
         </div>
 
-        {/* E-mail / senha */}
+        {/* E-mail / senha (opcional) */}
         <form onSubmit={handleEmailPassword} className="w-full flex flex-col gap-4 items-center">
           <input
             type="email"
@@ -141,12 +134,7 @@ export function Login({ onLogin }: LoginProps) {
           </button>
         </form>
 
-        {/* erros */}
-        {error && (
-          <div className="mt-3 text-sm text-rose-600 text-center">
-            {error}
-          </div>
-        )}
+        {error && <div className="mt-3 text-sm text-rose-600 text-center">{error}</div>}
 
         <div className="mt-6 text-center text-sm text-muted-foreground">
           Novo por aqui? Crie sua conta no app futuramente!

@@ -14,4 +14,5 @@ const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
+// força escolha de conta ao reautenticar
 googleProvider.setCustomParameters({ prompt: "select_account" });

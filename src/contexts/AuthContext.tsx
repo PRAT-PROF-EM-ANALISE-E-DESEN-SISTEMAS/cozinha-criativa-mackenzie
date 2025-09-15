@@ -1,4 +1,5 @@
-// src/contexts/AuthContext.tsx
+import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { auth, googleProvider } from "../lib/firebase";
 import {
   onAuthStateChanged,
   signInWithPopup,
@@ -9,8 +10,6 @@ import {
   signOut,
   type User as FirebaseUser,
 } from "firebase/auth";
-import { auth, googleProvider } from "../lib/firebase";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 type Ctx = {
   user: FirebaseUser | null;
@@ -25,44 +24,48 @@ const AuthContext = createContext<Ctx | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
     (async () => {
       try {
+        // mantém sessão após refresh/fechar aba
         await setPersistence(auth, browserLocalPersistence);
-        // IMPORTANTE: aguarde o resultado do redirect (se houver)
-        await getRedirectResult(auth);
-      } catch (e) {
-        console.warn("Auth redirect err:", e);
+        // completa login via redirect (iOS/PWA)
+        await getRedirectResult(auth).catch(() => {});
       } finally {
-        // só então comece a ouvir o estado
-        const unsub = onAuthStateChanged(auth, (u) => {
+        unsubscribe = onAuthStateChanged(auth, (u) => {
           setUser(u);
           setLoading(false);
         });
-        return () => unsub();
       }
     })();
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
   }, []);
 
   const loginWithGoogle = async () => {
-    setError(null);
     try {
-      // tenta popup
       await signInWithPopup(auth, googleProvider);
     } catch {
-      // fallback garantido em produção/PWA/iOS
+      // fallback para ambientes que bloqueiam popup
       await signInWithRedirect(auth, googleProvider);
     }
   };
 
   const logout = async () => {
-    setError(null);
     await signOut(auth);
   };
 
-  const value = useMemo(() => ({ user, loading, error, loginWithGoogle, logout }), [user, loading, error]);
+  const value = useMemo(
+    () => ({ user, loading, error, loginWithGoogle, logout }),
+    [user, loading, error]
+  );
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
