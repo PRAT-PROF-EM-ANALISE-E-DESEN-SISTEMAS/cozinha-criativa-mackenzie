@@ -27,7 +27,7 @@ const mockRecipes: Recipe[] = [
     prepTime: 20,
     servings: 4,
     category: "Massas",
-    difficulty: "MÃ©dio",
+    difficulty: "Médio",
     ingredients: [
       "400g de spaghetti",
       "200g de pancetta ou bacon em cubos",
@@ -58,7 +58,7 @@ const mockRecipes: Recipe[] = [
     prepTime: 15,
     servings: 2,
     category: "Saladas",
-    difficulty: "FÃ¡cil",
+    difficulty: "Fácil",
     ingredients: [
       "2 pÃ©s de alface romana",
       "1/2 xÃ­cara de parmesÃ£o ralado",
@@ -90,7 +90,7 @@ const mockRecipes: Recipe[] = [
     prepTime: 90,
     servings: 8,
     category: "Sobremesas",
-    difficulty: "DifÃ­cil",
+    difficulty: "Difícil",
     ingredients: [
       "2 xÃ­caras de farinha de trigo",
       "2 xÃ­caras de aÃ§Ãºcar",
@@ -123,7 +123,7 @@ const mockRecipes: Recipe[] = [
     prepTime: 45,
     servings: 4,
     category: "Carnes",
-    difficulty: "MÃ©dio",
+    difficulty: "Médio",
     ingredients: [
       "4 peitos de frango",
       "2 colheres de sopa de azeite",
@@ -155,7 +155,7 @@ const mockRecipes: Recipe[] = [
     prepTime: 40,
     servings: 6,
     category: "Sopas",
-    difficulty: "FÃ¡cil",
+    difficulty: "Fácil",
     ingredients: [
       "1kg de abÃ³bora descascada e cortada",
       "1 cebola picada",
@@ -188,7 +188,7 @@ const mockRecipes: Recipe[] = [
     prepTime: 35,
     servings: 4,
     category: "Vegetariano",
-    difficulty: "MÃ©dio",
+    difficulty: "Médio",
     ingredients: [
       "300g de arroz arbÃ³reo",
       "300g de mix de cogumelos",
