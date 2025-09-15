@@ -1,12 +1,13 @@
 ﻿import React, { useEffect, useState } from "react";
 import { Sparkles } from "lucide-react";
-import { Logo } from "./logo"; // ajuste o caminho se seu Logo estiver em outro lugar
+import { Logo } from "./logo";
 import { auth, googleProvider } from "../lib/firebase";
 import {
   signInWithPopup,
   signInWithRedirect,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  createUserWithEmailAndPassword, // ⬅️ cadastro
 } from "firebase/auth";
 
 interface LoginProps {
@@ -18,6 +19,7 @@ export function Login({ onLogin }: LoginProps) {
   const [password, setPassword] = useState("");
   const [animate, setAnimate] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [busyType, setBusyType] = useState<"google" | "login" | "register" | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,13 +38,16 @@ export function Login({ onLogin }: LoginProps) {
   const handleGoogle = async () => {
     setError(null);
     setBusy(true);
+    setBusyType("google");
     try {
       await signInWithPopup(auth, googleProvider);
       onLogin();
     } catch {
+      // fallback p/ iOS/PWA
       await signInWithRedirect(auth, googleProvider);
     } finally {
       setBusy(false);
+      setBusyType(null);
     }
   };
 
@@ -55,6 +60,7 @@ export function Login({ onLogin }: LoginProps) {
     }
     try {
       setBusy(true);
+      setBusyType("login");
       await signInWithEmailAndPassword(auth, email, password);
       onLogin();
     } catch (err: any) {
@@ -66,6 +72,32 @@ export function Login({ onLogin }: LoginProps) {
       setError(msg);
     } finally {
       setBusy(false);
+      setBusyType(null);
+    }
+  };
+
+  // ⬇️ NOVO: cadastro com e-mail/senha
+  const handleRegister = async () => {
+    setError(null);
+    if (!email || !password) {
+      setError("Informe e-mail e senha para cadastrar.");
+      return;
+    }
+    try {
+      setBusy(true);
+      setBusyType("register");
+      await createUserWithEmailAndPassword(auth, email, password);
+      onLogin(); // o usuário já entra logado após cadastrar
+    } catch (err: any) {
+      const code = err?.code as string | undefined;
+      let msg = "Não foi possível cadastrar. Tente novamente.";
+      if (code === "auth/email-already-in-use") msg = "Este e-mail já está em uso.";
+      else if (code === "auth/invalid-email") msg = "E-mail inválido.";
+      else if (code === "auth/weak-password") msg = "Senha muito fraca (mín. 6 caracteres).";
+      setError(msg);
+    } finally {
+      setBusy(false);
+      setBusyType(null);
     }
   };
 
@@ -96,7 +128,7 @@ export function Login({ onLogin }: LoginProps) {
             <path fill="#4CAF50" d="M24 44c5.2 0 10.1-2 13.7-5.3l-6.3-5.2C29.2 35.7 26.7 36.8 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.6 5.1C9.3 39.6 16.1 44 24 44z"/>
             <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1.3 3.7-4.9 8-11.3 8-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.6 6.1 29.6 4 24 4c-11.1 0-20 8.9-20 20s8.9 20 20 20c10 0 19-7.3 19-20 0-1.3-.1-2.7-.4-3.5z"/>
           </svg>
-          {busy ? "Conectando..." : "Continuar com Google"}
+          {busy && busyType === "google" ? "Conectando..." : "Continuar com Google"}
         </button>
 
         {/* divisor */}
@@ -109,7 +141,7 @@ export function Login({ onLogin }: LoginProps) {
           </div>
         </div>
 
-        {/* E-mail / senha (opcional) */}
+        {/* E-mail / senha */}
         <form onSubmit={handleEmailPassword} className="w-full flex flex-col gap-4 items-center">
           <input
             type="email"
@@ -125,19 +157,31 @@ export function Login({ onLogin }: LoginProps) {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary"
           />
+
+          {/* Entrar */}
           <button
             type="submit"
             disabled={busy}
-            className="mt-2 w-1/2 bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-60"
+            className="mt-1 w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition disabled:opacity-60"
           >
-            {busy ? "Entrando..." : "Entrar"}
+            {busy && busyType === "login" ? "Entrando..." : "Entrar"}
+          </button>
+
+          {/* ⬇️ Criar conta */}
+          <button
+            type="button"
+            onClick={handleRegister}
+            disabled={busy}
+            className="w-full border border-gray-200 bg-white py-3 rounded-lg font-semibold hover:bg-gray-50 transition disabled:opacity-60"
+          >
+            {busy && busyType === "register" ? "Cadastrando..." : "Criar conta"}
           </button>
         </form>
 
         {error && <div className="mt-3 text-sm text-rose-600 text-center">{error}</div>}
 
         <div className="mt-6 text-center text-sm text-muted-foreground">
-          Novo por aqui? Crie sua conta no app futuramente!
+          Novo por aqui? Você pode criar sua conta acima ou continuar com o Google.
         </div>
       </div>
     </div>
