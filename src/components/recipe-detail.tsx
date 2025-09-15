@@ -7,47 +7,47 @@ import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { IngredientSubstitutions } from "./ingredient-substitutions";
 import type { Recipe } from "../types/recipe";
 
-interface RecipeDetailProps {
+type RecipeDetailProps = {
   recipe: Recipe;
   onBack: () => void;
   availableIngredients?: string[];
-}
+};
 
 export function RecipeDetail({ recipe, onBack, availableIngredients = [] }: RecipeDetailProps) {
-  // Verifica quais ingredientes estÃ£o disponÃ­veis
-  const checkIngredientAvailability = (ingredient: string) => {
-    return availableIngredients.some(available => 
-      ingredient.toLowerCase().includes(available.toLowerCase()) || 
-      available.toLowerCase().includes(ingredient.toLowerCase())
+  const checkIngredientAvailability = (ingredient: string) =>
+    availableIngredients.some(
+      (available) =>
+        ingredient.toLowerCase().includes(available.toLowerCase()) ||
+        available.toLowerCase().includes(ingredient.toLowerCase())
     );
-  };
 
   const availableCount = recipe.ingredients.filter(checkIngredientAvailability).length;
-  const missingIngredients = recipe.ingredients.filter(ingredient => !checkIngredientAvailability(ingredient));
+  const missingIngredients = recipe.ingredients.filter((i) => !checkIngredientAvailability(i));
+
   return (
     <div className="max-w-4xl mx-auto">
-      <Button 
-        variant="ghost" 
-        onClick={onBack}
-        className="mb-4"
-      >
+      <Button variant="ghost" onClick={onBack} className="mb-4">
         <ArrowLeft className="w-4 h-4 mr-2" />
-        Voltar Ã s receitas
+        Voltar às receitas
       </Button>
 
       <div className="grid lg:grid-cols-2 gap-8">
         <div>
           <div className="aspect-square overflow-hidden rounded-lg mb-6">
-            <ImageWithFallback
-              src={recipe.image}
-              alt={recipe.title}
-              className="w-full h-full object-cover"
-            />
+            <ImageWithFallback src={recipe.image} alt={recipe.title} className="w-full h-full object-cover" />
           </div>
-          
+
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant="secondary">{recipe.category}</Badge>
-            <Badge variant={recipe.difficulty === "FÃ¡cil" ? "default" : recipe.difficulty === "MÃ©dio" ? "secondary" : "destructive"}>
+            <Badge
+              variant={
+                recipe.difficulty === "Fácil"
+                  ? "default"
+                  : recipe.difficulty === "Médio"
+                  ? "secondary"
+                  : "destructive"
+              }
+            >
               {recipe.difficulty}
             </Badge>
           </div>
@@ -80,7 +80,7 @@ export function RecipeDetail({ recipe, onBack, availableIngredients = [] }: Reci
                 Ingredientes
                 {availableIngredients.length > 0 && (
                   <Badge variant="outline">
-                    {availableCount}/{recipe.ingredients.length} disponÃ­veis
+                    {availableCount}/{recipe.ingredients.length} disponíveis
                   </Badge>
                 )}
               </CardTitle>

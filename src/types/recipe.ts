@@ -1,4 +1,5 @@
-// src/types/recipe.ts
+export type Difficulty = "Fácil" | "Médio" | "Difícil";
+
 export type Recipe = {
   id: number;
   title: string;
@@ -7,7 +8,7 @@ export type Recipe = {
   prepTime: number;
   servings: number;
   category: string;
-  difficulty: string;
+  difficulty: Difficulty;
   ingredients: string[];
   instructions: string[];
   matchPercentage?: number;
