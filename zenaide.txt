@@ -1,1 +1,9 @@
-- Criar nova branch 'from main'
+- Criar nova branch derivando ela da main 'from main' (Branch Principal)
+
+- Edita o codigo/Atualiza o código
+
+- Commmita as alteraçõe do código (Comentário)
+
+- Faz o 'push' dos commits feitos (Então sua branch vai pro github)
+
+- Criar PR (Pull Request) no github com a 'branch nova' apotnando para branch principal main 'to main'
