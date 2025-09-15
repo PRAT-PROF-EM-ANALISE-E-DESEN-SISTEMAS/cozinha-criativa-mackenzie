@@ -1,159 +1,69 @@
-# cozinha-criativa-mackenzie
-> **Cozinha Criativa** ajuda você a decidir o que cozinhar com os itens disponíveis em casa. Informe os ingredientes e receba sugestões de receitas que aproveitam ao máximo o que já está na despensa — promovendo praticidade, economia e criatividade na cozinha.
+# React + TypeScript + Vite
 
-## Índice
-- [Visão Geral](#visão-geral)
-- [Objetivos](#objetivos)
-  - [Objetivos Funcionais](#objetivos-funcionais)
-  - [Objetivos Não-Funcionais](#objetivos-não-funcionais)
-- [Interessados (Stakeholders)](#interessados-stakeholders)
-- [Casos de Uso](#casos-de-uso)
-- [Modelo de Domínio](#modelo-de-domínio)
-  - [Diagrama de Classes (Mermaid)](#diagrama-de-classes-mermaid)
-- [Protótipo de Alta Fidelidade](#protótipo-de-alta-fidelidade)
-- [Links do Projeto](#links-do-projeto)
-- [Equipe](#equipe)
-- [Próximos Passos](#próximos-passos)
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Visão Geral
-O **Cozinha Criativa** oferece uma plataforma intuitiva onde o usuário informa os ingredientes que possui e recebe sugestões de receitas compatíveis. A iniciativa busca **reduzir desperdício**, **economizar tempo e dinheiro** e **estimular a criatividade** ao explorar novas combinações de pratos.
+## Expanding the ESLint configuration
 
----
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## Objetivos
+```js
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-### Objetivos Funcionais
-- **Sugestões personalizadas de receitas:** o usuário informa ingredientes e obtém opções compatíveis.
-- **Exploração livre de receitas:** navegar por categorias e preferências sem precisar informar ingredientes.
-- **Interface simples e intuitiva:** experiência acessível e fácil de compreender.
+      // Remove tseslint.configs.recommended and replace with this
+      ...tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      ...tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      ...tseslint.configs.stylisticTypeChecked,
 
-### Objetivos Não-Funcionais
-- **Desempenho:** sistema rápido e responsivo.  
-- **Usabilidade:** interface agradável e fácil de navegar.  
-- **Segurança:** proteção dos dados do usuário.  
-- **Escalabilidade:** suporta crescimento de usuários mantendo estabilidade.
-
----
-
-## Interessados (Stakeholders)
-- **Usuários finais:** pessoas que usam a plataforma para encontrar receitas a partir do que já têm.
-- **Equipe de desenvolvimento:** implementação, manutenção e evolução do sistema.
-- **Mentores e professores:** acompanhamento e garantia dos requisitos técnicos da disciplina.
-- **Administradores do sistema:** segurança, desempenho e disponibilidade da aplicação.
-
----
-
-## Casos de Uso
-**CU1 — Buscar Receitas Personalizadas**  
-**Ator:** Usuário final.  
-**Descrição:** Usuário informa ingredientes e recebe lista de receitas compatíveis.  
-**Fluxo resumido:** (1) acessar busca → (2) informar ingredientes → (3) receber sugestões → (4) visualizar receita.
-
-**CU2 — Explorar Receitas**  
-**Ator:** Usuário final.  
-**Descrição:** Navegar por categorias e tipos de pratos sem informar ingredientes.  
-**Fluxo resumido:** (1) acessar exploração → (2) ver categorias/opções → (3) selecionar receita → (4) ver detalhes.
-
-**CU3 — Gerenciar Preferências**  
-**Ator:** Usuário final.  
-**Descrição:** Definir/atualizar preferências (restrições alimentares, favoritos etc.).  
-**Fluxo resumido:** (1) acessar configurações → (2) ajustar preferências → (3) salvar → (4) confirmações e recomendações mais aderentes.
-
----
-
-## Modelo de Domínio
-
-### Diagrama de Classes (Mermaid)
-> _Cole este trecho em Markdown compatível com Mermaid (GitLab, Notion, Obsidian com plugin, etc.)_
-
-```mermaid
-%% Layout: topo (entidades) -> meio (junções)
-classDiagram
-direction TB
-
-%% ===== Linha do topo (entidades principais) =====
-class Usuario {
-  +id: long
-  +nome: string
-  +email: string
-  +restricoesAlimentares: string[]
-}
-class Receita {
-  +id: long
-  +titulo: string
-  +descricao: string
-  +categoria: string
-  +modoPreparo: string
-  +imagemUrl: string
-  +tempoPreparoMin: int
-  +porcoes: int
-  +dificuldade: string
-}
-class Ingrediente {
-  +id: long
-  +nome: string
-  +categoria: string
-  +perecivel: boolean
-  +unidadePadrao: string
-}
-
-%% ===== Linha do meio (junções N..N) =====
-class Favorito {
-  +usuarioId: long
-  +receitaId: long
-}
-class ReceitaIngrediente {
-  +receitaId: long
-  +ingredienteId: long
-  +quantidade: string
-}
-
-%% ===== Relacionamentos (essenciais) =====
-Usuario "1" *-- "0..*" Favorito : possui
-Receita "1" *-- "0..*" Favorito : é favoritada por
-
-Receita "1" *-- "1..*" ReceitaIngrediente : compõe
-Ingrediente "1" *-- "0..*" ReceitaIngrediente : participa
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## Protótipo de Alta Fidelidade
-Telas de referência do protótipo:
-- **Tela de Login — Cozinha Criativa**
-- **Tela Inicial — Cozinha Criativa**
-- **Tela Receita — Cozinha Criativa**
-- **Tela Ingredientes — Cozinha Criativa**
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-> **Figma:** https://www.figma.com/make/Dowkna04dXT1mRPdG3opLX/Recipe-App?fullscreen=1
-
----
-
-## Links do Projeto
-- **Repositório:** https://github.com/PRAT-PROF-EM-ANALISE-E-DESEN-SISTEMAS/cozinha-criativa-mackenzie  
-- **Trello (Kanban da disciplina):** https://trello.com/b/gvBan7Dz/kanban-mackenzie-prat-prof-em-analisedesen-sistemas-projeto-da-disciplina-10
-
----
-
-## Equipe
-- **Andreia do Nascimento Oliveira** 
-- **Caio Bello Zamana** 
-- **Henrique Ribeiro Ciriaco Silva** 
-- **Verônica Lima de Faria** 
-- **Zenaide Silva Souto** 
-
-> **Instituição:** Universidade Presbiteriana Mackenzie  
-> **Componente Curricular:** Prática Profissional em Análise e Desenvolvimento de Sistemas
-
----
-
-## Próximos Passos
-- Integração de **lista de compras** a partir das receitas escolhidas.  
-- Recomendações **ainda mais personalizadas** (com base em histórico/preferências).  
-- **Suporte multilíngue**.  
-- **Aprimoramentos de infraestrutura** contínuos para desempenho e escalabilidade.
-
----
+export default tseslint.config([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
