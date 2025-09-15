@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import { auth, googleProvider } from "../lib/firebase";
+// src/contexts/AuthContext.tsx
 import {
   onAuthStateChanged,
   signInWithPopup,
@@ -8,8 +7,10 @@ import {
   setPersistence,
   browserLocalPersistence,
   signOut,
-  type User as FirebaseUser, // <— evita conflito de nomes
+  type User as FirebaseUser,
 } from "firebase/auth";
+import { auth, googleProvider } from "../lib/firebase";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
 type Ctx = {
   user: FirebaseUser | null;
@@ -27,26 +28,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // garante que a sessão persista (tabs/refresh/PWA)
-    setPersistence(auth, browserLocalPersistence).catch(() => {});
-
-    // completa login via redirect (iOS/PWA)
-    getRedirectResult(auth).catch(() => {});
-
-    const unsub = onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setLoading(false);
-    });
-
-    return () => unsub();
+    (async () => {
+      try {
+        await setPersistence(auth, browserLocalPersistence);
+        // IMPORTANTE: aguarde o resultado do redirect (se houver)
+        await getRedirectResult(auth);
+      } catch (e) {
+        console.warn("Auth redirect err:", e);
+      } finally {
+        // só então comece a ouvir o estado
+        const unsub = onAuthStateChanged(auth, (u) => {
+          setUser(u);
+          setLoading(false);
+        });
+        return () => unsub();
+      }
+    })();
   }, []);
 
   const loginWithGoogle = async () => {
     setError(null);
     try {
+      // tenta popup
       await signInWithPopup(auth, googleProvider);
-    } catch (e) {
-      // popup pode falhar em iOS/PWA → fallback
+    } catch {
+      // fallback garantido em produção/PWA/iOS
       await signInWithRedirect(auth, googleProvider);
     }
   };
@@ -56,11 +62,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     await signOut(auth);
   };
 
-  const value = useMemo(
-    () => ({ user, loading, error, loginWithGoogle, logout }),
-    [user, loading, error]
-  );
-
+  const value = useMemo(() => ({ user, loading, error, loginWithGoogle, logout }), [user, loading, error]);
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
