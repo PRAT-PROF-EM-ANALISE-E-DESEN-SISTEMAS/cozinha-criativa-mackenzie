@@ -1,17 +1,20 @@
-// src/contexts/AuthContext.tsx
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { auth, googleProvider } from "../lib/firebase";
 import {
   onAuthStateChanged,
   signInWithPopup,
   signInWithRedirect,
+  getRedirectResult,
+  setPersistence,
+  browserLocalPersistence,
   signOut,
-  User,
+  type User as FirebaseUser, // <— evita conflito de nomes
 } from "firebase/auth";
 
 type Ctx = {
-  user: User | null;
+  user: FirebaseUser | null;
   loading: boolean;
+  error: string | null;
   loginWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
 };
@@ -19,28 +22,45 @@ type Ctx = {
 const AuthContext = createContext<Ctx | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // garante que a sessão persista (tabs/refresh/PWA)
+    setPersistence(auth, browserLocalPersistence).catch(() => {});
+
+    // completa login via redirect (iOS/PWA)
+    getRedirectResult(auth).catch(() => {});
+
     const unsub = onAuthStateChanged(auth, (u) => {
       setUser(u);
       setLoading(false);
     });
+
     return () => unsub();
   }, []);
 
   const loginWithGoogle = async () => {
+    setError(null);
     try {
       await signInWithPopup(auth, googleProvider);
-    } catch {
-      await signInWithRedirect(auth, googleProvider); // fallback p/ PWA/iOS
+    } catch (e) {
+      // popup pode falhar em iOS/PWA → fallback
+      await signInWithRedirect(auth, googleProvider);
     }
   };
 
-  const logout = () => signOut(auth);
+  const logout = async () => {
+    setError(null);
+    await signOut(auth);
+  };
 
-  const value = useMemo(() => ({ user, loading, loginWithGoogle, logout }), [user, loading]);
+  const value = useMemo(
+    () => ({ user, loading, error, loginWithGoogle, logout }),
+    [user, loading, error]
+  );
+
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
