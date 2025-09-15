@@ -1,6 +1,8 @@
 ﻿import { useState, useMemo } from "react";
 import { RecipeCard } from "./components/recipe-card";
+
 import type { Recipe } from "./types/recipe";
+
 import { RecipeDetail } from "./components/recipe-detail";
 import { RecipeSearch } from "./components/recipe-search";
 import { PantryManager } from "./components/pantry-manager";
@@ -14,6 +16,7 @@ import {
 } from "./components/ui/tabs";
 import { Alert, AlertDescription } from "./components/ui/alert";
 import { Login } from "./components/Login"; // import do login
+
 
 // Dados mock das receitas (mantive todas do seu cÃ³digo original)
 const mockRecipes: Recipe[] = [
@@ -440,3 +443,4 @@ export default function App() {
     </div>
   );
 }
+

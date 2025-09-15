@@ -1,6 +1,4 @@
-﻿import React from 'react';
-
-interface LogoProps {
+﻿interface LogoProps {
   className?: string;
 }
 
@@ -68,3 +66,4 @@ export function Logo({ className = "" }: LogoProps) {
     </div>
   );
 }
+

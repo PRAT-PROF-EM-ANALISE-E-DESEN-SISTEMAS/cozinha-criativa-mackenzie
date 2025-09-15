@@ -98,3 +98,4 @@ export function IngredientSubstitutions({ missingIngredients }: IngredientSubsti
     </Card>
   );
 }
+

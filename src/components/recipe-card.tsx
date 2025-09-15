@@ -111,3 +111,4 @@ export function RecipeCard({
 
 // (opcional) reexporta o tipo central para evitar imports quebrados antigos
 export type { Recipe } from "../types/recipe";
+

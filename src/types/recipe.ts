@@ -1,4 +1,11 @@
-export type Difficulty = "Fácil" | "Médio" | "Difícil";
+﻿// src/types/recipe.ts
+export const DIFFICULTY = {
+  Facil: "Fácil",
+  Medio: "Médio",
+  Dificil: "Difícil",
+} as const;
+
+export type Difficulty = (typeof DIFFICULTY)[keyof typeof DIFFICULTY];
 
 export type Recipe = {
   id: number;

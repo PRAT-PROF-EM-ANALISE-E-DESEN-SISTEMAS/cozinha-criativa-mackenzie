@@ -3,7 +3,6 @@ import { Plus, X, Package } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 
 interface PantryManagerProps {
@@ -129,3 +128,4 @@ export function PantryManager({
     </Dialog>
   );
 }
+

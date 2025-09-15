@@ -2,7 +2,6 @@
 import { Button } from "./ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Badge } from "./ui/badge";
-import { Separator } from "./ui/separator";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { IngredientSubstitutions } from "./ingredient-substitutions";
 import type { Recipe } from "../types/recipe";
@@ -136,3 +135,4 @@ export function RecipeDetail({ recipe, onBack, availableIngredients = [] }: Reci
     </div>
   );
 }
+
