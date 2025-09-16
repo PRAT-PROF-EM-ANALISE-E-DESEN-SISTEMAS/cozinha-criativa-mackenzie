@@ -1,9 +1,11 @@
-- Criar nova branch derivando ela  'from main' (Branch main remota)
+1- Criar nova branch derivando ela  'from main' (Branch main remota)
 
-- Edita o codigo/Atualiza o código
+2- Edita o codigo/Atualiza o código
 
-- Commmita as alteraçõe do código (Comentário)
+3- Commmita as alteraçõe do código (Comentário)
 
-- Faz o 'push' dos commits feitos (Então sua branch vai pro github)
+4- Faz o 'push' dos commits feitos (Então sua branch vai pro github)
 
-- Criar PR (Pull Request) no github com a 'branch nova' apotnando para branch principal main 'to main'
+5- Criar PR (Pull Request) no github com a 'branch nova' apontando para branch principal main 'to main'
+
+6- Após aprovação do time merge pull request do codigo novo para o código principal
