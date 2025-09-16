@@ -6,4 +6,6 @@
 
 - Faz o 'push' dos commits feitos (Então sua branch vai pro github)
 
-- Criar PR (Pull Request) no github com a 'branch nova' apotnando para branch principal main 'to main'
+- Criar PR (Pull Request) no github com a 'branch nova' apontando para branch principal main 'to main'
+
+- Após aprovação do time merge pull request do codigo novo para o código principal
