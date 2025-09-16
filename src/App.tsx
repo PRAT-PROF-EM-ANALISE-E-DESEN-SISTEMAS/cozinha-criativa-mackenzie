@@ -35,7 +35,7 @@ const mockRecipes: Recipe[] = [
       "400g de spaghetti",
       "200g de pancetta ou bacon em cubos",
       "4 ovos inteiros",
-      "100g de queijo parmesÃ£o ralado",
+      "100g de queijo parmesão ralado",
       "Pimenta preta moÃ­da na hora",
       "Sal a gosto",
       "2 dentes de alho",

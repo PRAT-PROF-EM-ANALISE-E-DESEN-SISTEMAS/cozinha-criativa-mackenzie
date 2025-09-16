@@ -1,4 +1,4 @@
-- Criar nova branch derivando ela da main 'from main' (Branch Principal)
+- Criar nova branch derivando ela  'from main' (Branch main remota)
 
 - Edita o codigo/Atualiza o código
 
