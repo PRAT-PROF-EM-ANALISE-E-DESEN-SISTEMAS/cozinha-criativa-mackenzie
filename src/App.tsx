@@ -22,9 +22,9 @@ import type { Recipe } from "./types/recipe";
 const mockRecipes: Recipe[] = [
   {
     id: 1,
-    title: "Spaghetti Ã  Carbonara",
+    title: "Spaghetti a  Carbonara",
     description:
-      "Um clÃ¡ssico italiano cremoso e delicioso, feito com ovos, queijo parmesÃ£o, pancetta e pimenta preta.",
+      "Um classico italiano cremoso e delicioso, feito com ovos, queijo parmesão, pancetta e pimenta preta.",
     image:
       "https://images.unsplash.com/photo-1632778129004-f142ce499b3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXN0YSUyMGRpc2glMjBpdGFsaWFuJTIwZm9vZHxlbnwxfHx8fDE3NTc1ODM0MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
     prepTime: 20,
@@ -36,19 +36,19 @@ const mockRecipes: Recipe[] = [
       "200g de pancetta ou bacon em cubos",
       "4 ovos inteiros",
       "100g de queijo parmesão ralado",
-      "Pimenta preta moÃ­da na hora",
+      "Pimenta preta moida na hora",
       "Sal a gosto",
       "2 dentes de alho",
     ],
     instructions: [
-      "Cozinhe o spaghetti em Ã¡gua fervente com sal atÃ© ficar al dente.",
-      "Enquanto isso, frite a pancetta em uma frigideira grande atÃ© ficar dourada.",
-      "Em uma tigela, bata os ovos com o parmesÃ£o e pimenta preta.",
-      "Escorra a massa e reserve 1 xÃ­cara da Ã¡gua do cozimento.",
-      "Adicione a massa quente Ã  frigideira com a pancetta.",
+      "Cozinhe o spaghetti em água fervente com sal ate ficar al dente.",
+      "Enquanto isso, frite a pancetta em uma frigideira grande ate ficar dourada.",
+      "Em uma tigela, bata os ovos com o parmesão e pimenta preta.",
+      "Escorra a massa e reserve 1 xícara da água do cozimento.",
+      "Adicione a massa quente a  frigideira com a pancetta.",
       "Retire do fogo e misture rapidamente com os ovos batidos.",
-      "Adicione Ã¡gua da massa aos poucos atÃ© obter cremosidade.",
-      "Sirva imediatamente com parmesÃ£o extra.",
+      "Adicione água da massa aos poucos ate obter cremosidade.",
+      "Sirva imediatamente com parmesão extra.",
     ],
   },
   {
