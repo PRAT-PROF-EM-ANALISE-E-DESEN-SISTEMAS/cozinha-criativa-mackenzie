@@ -1,3 +1,5 @@
+0- Clonar projeto
+
 1- Criar nova branch derivando ela  'from main' (Branch main remota)
 
 2- Edita o codigo/Atualiza o código
