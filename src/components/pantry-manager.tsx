@@ -12,11 +12,12 @@ interface PantryManagerProps {
 }
 
 const commonIngredients = [
-  "Ovos", "Leite", "Farinha de trigo", "AÃ§Ãºcar", "Sal", "Pimenta", 
-  "Azeite de oliva", "Ã“leo", "Cebola", "Alho", "Tomate", "Arroz",
-  "FeijÃ£o", "Frango", "Carne moÃ­da", "Queijo", "Manteiga", "LimÃ£o",
-  "Batata", "Cenoura", "PimentÃ£o", "MacarrÃ£o", "PÃ£o", "Iogurte"
+  "Ovos", "Leite", "Farinha de trigo", "Açúcar", "Sal", "Pimenta",
+  "Azeite de oliva", "Óleo", "Cebola", "Alho", "Tomate", "Arroz",
+  "Feijão", "Frango", "Carne moída", "Queijo", "Manteiga", "Limão",
+  "Batata", "Cenoura", "Pimentão", "Macarrão", "Pão", "Iogurte"
 ];
+
 
 export function PantryManager({ 
   availableIngredients, 
