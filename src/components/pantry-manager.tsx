@@ -104,8 +104,9 @@ export function PantryManager({
             </label>
             {availableIngredients.length === 0 ? (
               <p className="text-muted-foreground text-sm">
-                Nenhum ingrediente adicionado ainda. Comece adicionando ingredientes que vocÃª tem em casa!
+                Nenhum ingrediente adicionado ainda. Comece adicionando ingredientes que você tem em casa!
               </p>
+
             ) : (
               <div className="flex flex-wrap gap-2">
                 {availableIngredients.map((ingredient) => (
