@@ -120,7 +120,7 @@ Ingrediente "1" *-- "0..*" ReceitaIngrediente : participa
 ```
 
 
-### 🌐 Diagrama de Implantação
+### Diagrama de Implantação
 
 ```mermaid
 flowchart TD
@@ -147,7 +147,7 @@ flowchart TD
 
 ---
 
-### 🔁 Alternativa: Diagrama de Sequência
+### Diagrama de Sequência
 
 ```mermaid
 sequenceDiagram
