@@ -147,7 +147,7 @@ flowchart TD
 
 ---
 
-### Diagrama de Sequência
+### Diagrama de Sequência da implantaçao
 
 ```mermaid
 sequenceDiagram
