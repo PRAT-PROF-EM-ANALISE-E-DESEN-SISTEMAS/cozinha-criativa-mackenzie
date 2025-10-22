@@ -119,6 +119,52 @@ Receita "1" *-- "1..*" ReceitaIngrediente : compõe
 Ingrediente "1" *-- "0..*" ReceitaIngrediente : participa
 ```
 
+
+### 🌐 Diagrama de Implantação
+
+```mermaid
+flowchart TD
+
+    %% --- Etapa de Desenvolvimento ---
+    Dev[Desenvolvedor] -->|Cria branch derivada de master| Branch[feature/*]
+    Branch -->|Abre Pull Request para master| PR[Pull Request]
+    PR -->|Merge aprovado| Master[(master)]
+
+    %% --- Etapa de Versionamento ---
+    Master -->|Push / Merge| GH[GitHub Repo]
+
+    %% --- Etapa de Integração e Deploy ---
+    GH -->|Integração / Webhook| VercelPipe[Vercel - Pipeline Build & Deploy]
+    VercelPipe -->|Build| Deploy[Deploy em Produção]
+    Deploy -->|Publica| Site[Seu Site - URL de Produção]
+
+    %% --- Links úteis ---
+    click GH "https://github.com/" _blank
+    click Site "https://seu-dominio.com" _blank
+
+```
+
+
+---
+
+### 🔁 Alternativa: Diagrama de Sequência
+
+```mermaid
+sequenceDiagram
+    participant Dev as Desenvolvedor
+    participant GH as GitHub
+    participant Vercel as Vercel - Pipeline
+    participant Web as Site em Produção
+
+    Dev->>GH: Cria branch a partir de master
+    Dev->>GH: Abre Pull Request para master
+    Dev->>GH: Faz merge do PR em master
+    GH-->>Vercel: Dispara integração (webhook) / Git Integration
+    Vercel->>Vercel: Build do projeto
+    Vercel->>Web: Deploy em produção
+    Web-->>Dev: Versão atualizada disponível
+```
+
 ---
 
 ## Protótipo de Alta Fidelidade
