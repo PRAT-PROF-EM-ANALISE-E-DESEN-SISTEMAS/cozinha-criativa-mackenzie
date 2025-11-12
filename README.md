@@ -3,6 +3,7 @@
 
 ## Índice
 - [Visão Geral](#visão-geral)
+- [Instruções detalhadas para um desenvolvedor conseguir executar a aplicação em seu computador pessoal.](#intruções)
 - [Objetivos](#objetivos)
 - [Objetivos Funcionais](#objetivos-funcionais)
 - [Objetivos Não-Funcionais](#objetivos-não-funcionais)
@@ -20,6 +21,18 @@
 
 ## Visão Geral
 O **Cozinha Criativa** oferece uma plataforma intuitiva onde o usuário informa os ingredientes que possui e recebe sugestões de receitas compatíveis. A iniciativa busca **reduzir desperdício**, **economizar tempo e dinheiro** e **estimular a criatividade** ao explorar novas combinações de pratos.
+
+---
+
+## Instruções detalhadas para um desenvolvedor conseguir executar a aplicação em seu computador pessoal.
+
+  ####  Rode os comandos em sequência:
+    git clone https://github.com/PRAT-PROF-EM-ANALISE-E-DESEN-SISTEMAS/cozinha-criativa-mackenzie.git
+  ####  No diretório da aplicação: 
+        npm install
+        npm run dev
+  ####      Acesso local:
+            http://localhost:5173/
 
 ---
 

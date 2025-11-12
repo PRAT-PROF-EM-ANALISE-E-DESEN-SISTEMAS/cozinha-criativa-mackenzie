@@ -13,7 +13,7 @@ export default defineConfig({
       devOptions: { enabled: true }, // permite testar PWA no `npm run dev`
       includeAssets: ["favicon.svg", "robots.txt"],
       manifest: {
-        name: "Cozinha Criativa",
+        name: "Cozinha Criativa 2.0",
         short_name: "Cozinha",
         description: "Receitas, filtros e sua despensa.",
         start_url: "/home",
